@@ -65,6 +65,21 @@ class ListWidget(QtGui.QListWidget):
 #		for e in self.items:
 #			self.addItem(e)
 
+	def createContextMenu(self):
+		menu = QtGui.QMenu(self)
+		refreshAction = menu.addAction("Refresh")
+
+		viewSubMenu = QtGui.QMenu(menu)
+		viewSubMenu.setTitle("View")
+		menu.addMenu(viewSubMenu)
+		toggleToolBarAction = viewSubMenu.addAction("Toggle Toolbar")
+		toggleMenuBarAction = viewSubMenu.addAction("Toggle Menubar")
+
+		toggleToolModeAction = menu.addAction("Toggle Mode")
+		showHiddenAction = menu.addAction("Show Hidden Files")
+		quitAction = menu.addAction("Quit")
+		return menu
+
 	def toggleMode(self):
 		viewMode = self.viewMode()
 		if viewMode == QtGui.QListView.ListMode:
@@ -95,12 +110,6 @@ class ListWidget(QtGui.QListWidget):
 #	def wheelEvent(self, event):
 #		pass
 #		print("scrolled")
-
-	def createContextMenu(self):
-		menu = QtGui.QMenu(self)
-		quitAction = menu.addAction("Refresh")
-		quitAction = menu.addAction("Quit")
-		return menu
 
 	def contextMenuEvent(self, event):
 		menu = self.createContextMenu()

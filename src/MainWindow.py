@@ -40,14 +40,24 @@ class MainWindow(QtGui.QMainWindow):
 		self.toggleView = QtGui.QAction(QtGui.QIcon("../res/icones/arrows_hamburger 2.svg"), "toggleView", self)
 		self.toggleView.triggered.connect(self.listWidget.toggleMode)
 
+		self.refreshAction=QtGui.QAction(QtGui.QIcon('../res/icones/arrows_clockwise.svg'), '&Refresh', self)
+		self.refreshAction.setShortcut('Ctrl+R')
+		self.refreshAction.setStatusTip('Refresh')
+
+		self.showStatusBarAction=QtGui.QAction('&Show Status Bar', self)
+#		self.showStatusBarAction.setShortcut('Ctrl+R')
+		self.showStatusBarAction.setStatusTip('Show Status Bar')
+		self.showStatusBarAction.triggered.connect(self.toggleViewStatusBarEvent)
+
+		self.showToolBarAction=QtGui.QAction('&Show Tool Bar', self)
+#		self.showToolBarAction.setShortcut('Ctrl+R')
+		self.showToolBarAction.setStatusTip('Show Tool Bar')
+		self.showToolBarAction.triggered.connect(self.toggleViewToolBarEvent)
+
 		self.exitAction=QtGui.QAction(QtGui.QIcon('../res/icones/arrows_remove.svg'), '&Exit', self)
 		self.exitAction.setShortcut('Ctrl+Q')
 		self.exitAction.setStatusTip('Exit')
 		self.exitAction.triggered.connect(QtGui.qApp.quit)
-
-		self.refreshAction=QtGui.QAction(QtGui.QIcon('../res/icones/arrows_clockwise.svg'), '&Refresh', self)
-		self.refreshAction.setShortcut('Ctrl+R')
-		self.refreshAction.setStatusTip('Refresh')
 		#------------------------------------------
 		# Menu Bar
 		#------------------------------------------
@@ -55,12 +65,16 @@ class MainWindow(QtGui.QMainWindow):
 #		self.fileMenu.addAction(self.restartAction)
 		self.fileMenu.addAction(self.exitAction)
 
+		self.viewMenu=self.menuBar().addMenu('&View')
+		self.viewMenu.addAction(self.showToolBarAction)
+		self.viewMenu.addAction(self.showStatusBarAction)
+
 		self.helpMenu=self.menuBar().addMenu('&Help')
 		self.helpMenu.addAction("About")
 		#------------------------------------------
 		# ToolBar
 		#------------------------------------------
-		self.toolBar = self.addToolBar("File")
+		self.toolBar = self.addToolBar("Main")
 		self.toolBar.addAction(self.home)
 		self.toolBar.addAction(self.toggleView)
 		self.toolBar.addAction(self.refreshAction)
@@ -89,6 +103,18 @@ class MainWindow(QtGui.QMainWindow):
 		self.setCentralWidget(self.centralWidget)
 
 		self.show()
+
+	def toggleViewStatusBarEvent(self):
+		if self.statusBar().isVisible():
+			self.statusBar().hide()
+		else:
+			self.statusBar().show()
+
+	def toggleViewToolBarEvent(self):
+		if self.toolBar.isVisible():
+			self.toolBar.hide()
+		else:
+			self.toolBar.show()
 
 if __name__=="__main__":
 	app = QtGui.QApplication(sys.argv) 
